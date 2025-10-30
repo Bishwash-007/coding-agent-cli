@@ -1,4 +1,3 @@
-import os
 import sys
 from google.genai import types
 
@@ -6,6 +5,11 @@ from functions.get_files_info import schema_get_files_info
 from functions.get_files_content import schema_get_file_content
 from functions.run_python_file import schema_run_python_file
 from functions.write_file import schema_write_file
+from functions.format_with_prettier import schema_format_with_prettier
+from functions.run_javascript_file import schema_run_javascript_file
+from functions.modify_file import schema_modify_file
+from functions.track_changes import schema_show_recent_changes
+from functions.show_diff import schema_show_diff
 
 from call_function import call_function
 from llm import client
@@ -41,10 +45,15 @@ def main():
     
     available_functions = types.Tool(
         function_declarations=[
-            schema_get_files_info,
-            schema_get_file_content,
             schema_run_python_file,
-            schema_write_file
+            schema_run_javascript_file,
+            schema_write_file,
+            schema_get_file_content,
+            schema_get_files_info,
+            schema_format_with_prettier,
+            schema_modify_file,
+            schema_show_recent_changes,
+            schema_show_diff 
         ]
     )
     
@@ -85,7 +94,6 @@ def main():
                 messages.append(result)
             
         else:
-            #final agent text message
             print(response.text)
             return
         

@@ -2,6 +2,12 @@ from functions.get_files_content import get_file_content
 from functions.get_files_info import get_files_info
 from functions.run_python_file import run_python_file
 from functions.write_file import write_file
+from functions.run_javascript_file import run_javascript_file
+from functions.format_with_prettier import format_with_prettier
+from functions.modify_file import modify_file
+from functions.track_changes import show_recent_changes, log_file_change
+from functions.show_diff import show_diff
+
 from google.genai import types
 
 working_directory = 'calculator'
@@ -23,6 +29,16 @@ def call_function(function_call_part, verbose=False):
         result = run_python_file(working_directory, **function_call_part.args)
     if function_call_part.name == "write_file":
         result = write_file(working_directory, **function_call_part.args)
+    if function_call_part.name == "run_javascript_file":
+        result = run_javascript_file(working_directory, **function_call_part.args)
+    if function_call_part.name == "format_with_prettier":
+        result = format_with_prettier(working_directory, **function_call_part.args)
+    elif function_call_part.name == "modify_file":
+        result = modify_file(working_directory, **function_call_part.args)
+    elif function_call_part.name == "show_recent_changes":
+        result = show_recent_changes()
+    elif function_call_part.name == "show_diff":
+        result = show_diff(working_directory, **function_call_part.args)
         
     if result == "":
         return types.Content(
