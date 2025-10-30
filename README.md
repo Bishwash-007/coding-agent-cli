@@ -28,9 +28,17 @@ uv sync
 uv run cli.py
 ```
 
-Usage
+Example Usage
 ---
-![Image]('./image.png')
+
+![Image](https://github.com/Bishwash-007/coding-agent-cli/blob/337e65e21663d64b1798cc3cbeb5b2e4cce9f58a/images/image.png?raw=True)
+
+When prompted input your prompt<br>
+e.g : initialize me a express js application
+
+![Image](https://github.com/Bishwash-007/coding-agent-cli/blob/337e65e21663d64b1798cc3cbeb5b2e4cce9f58a/images/image2.png?raw=True)
+
+you can ask the agent to build your project. keep it simple lol
 
 Setup Environment Variables
 ---
