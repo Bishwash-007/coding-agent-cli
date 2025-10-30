@@ -1,14 +1,17 @@
 import os
 import subprocess
 
+from google.genai import types
+
 def run_python_file(working_directory, file_path:str, args=[]):
     abs_working_directory = os.path.abspath(working_directory)        
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
     
     if not abs_file_path.startswith(abs_working_directory):
-            if not os.path.isfile(abs_file_path):
-                return f"Error: {abs_file_path} doesn't exist"
-            return f'Error: {abs_file_path} is not in the working directory'
+        return f'Error: {abs_file_path} is not in the working directory'
+        
+    if not os.path.isfile(abs_file_path):
+        return f"Error: {abs_file_path} doesn't exist"
     
     
     if not file_path.endswith('.py'):
@@ -34,3 +37,22 @@ def run_python_file(working_directory, file_path:str, args=[]):
             
     except Exception as e:
         return f"Error executing python file: {e}"
+    
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Runs a python file and accepts additional args as a list from cli",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="path to the file from the working directory",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                description="An optional array of strings to be used as CLI args",
+                    items=types.Schema(type=types.Type.STRING),
+            )
+        },
+    ),
+)
