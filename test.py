@@ -1,4 +1,4 @@
-from functions.get_files_info import get_file_info
+from functions.get_files_info import get_files_info
 from functions.get_files_content import get_file_content
 from functions.write_file import write_file
 from functions.run_python_file import run_python_file
@@ -6,21 +6,24 @@ from functions.run_python_file import run_python_file
 def main():
     working_directory = 'calculator'
     print(run_python_file(working_directory, 'lorem.txt'))
+    print(run_python_file(working_directory, 'main.py', "3 + 5"))
     print(run_python_file(working_directory, 'tests.py'))
+    print(run_python_file(working_directory, 'something.py'))
+    print(run_python_file(working_directory, './functions/get_files_content.py'))
 
 main()
 
 
 
-def test_get_file_info():
+def test_get_files_info():
     working_directory = 'calculator'
-    root_content = get_file_info(working_directory)
+    root_content = get_files_info(working_directory)
     print(f"Root Content : {root_content}")
-    child_content = get_file_info(working_directory, 'pkg')
+    child_content = get_files_info(working_directory, 'pkg')
     print(f"Child Content : {child_content}")
-    child_content = get_file_info(working_directory, '/bin')
+    child_content = get_files_info(working_directory, '/bin')
     print(f"Child Content : {child_content}")
-    child_content = get_file_info(working_directory, '../bin')
+    child_content = get_files_info(working_directory, '../bin')
     print(f"Child Content : {child_content}")
     
     
