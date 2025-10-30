@@ -1,8 +1,9 @@
 import os
 from functions.track_changes import log_file_change
+from functions.show_diff import show_diff
 from google.genai import types
 
-def modify_file(working_directory, file_path: str, old_text: str, new_text: str, preview: bool):
+def modify_file(working_directory, file_path: str, old_text: str, new_text: str, preview: bool=False):
     abs_working_directory = os.path.abspath(working_directory)
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
     
@@ -20,12 +21,11 @@ def modify_file(working_directory, file_path: str, old_text: str, new_text: str,
 
         proposed_content = content.replace(old_text, new_text)
         if preview:
-            from functions.show_diff import show_diff
             return show_diff(working_directory, file_path, proposed_content)
         with open(abs_file_path, "w") as f:
             f.write(proposed_content)
-            log_file_change(working_directory, file_path)
-        
+            
+        log_file_change(working_directory, file_path)
         return f"Modified '{file_path}' — replaced {len(old_text)} chars with {len(new_text)} chars."
     except Exception as e:
         return f"Error modifying {file_path}: {e}"

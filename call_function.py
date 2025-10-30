@@ -10,7 +10,7 @@ from functions.show_diff import show_diff
 
 from google.genai import types
 
-working_directory = 'calculator'
+working_directory = 'projects'
 
 def call_function(function_call_part, verbose=False):
     if verbose :
@@ -33,11 +33,11 @@ def call_function(function_call_part, verbose=False):
         result = run_javascript_file(working_directory, **function_call_part.args)
     if function_call_part.name == "format_with_prettier":
         result = format_with_prettier(working_directory, **function_call_part.args)
-    elif function_call_part.name == "modify_file":
+    if function_call_part.name == "modify_file":
         result = modify_file(working_directory, **function_call_part.args)
-    elif function_call_part.name == "show_recent_changes":
+    if function_call_part.name == "show_recent_changes":
         result = show_recent_changes()
-    elif function_call_part.name == "show_diff":
+    if function_call_part.name == "show_diff":
         result = show_diff(working_directory, **function_call_part.args)
         
     if result == "":
