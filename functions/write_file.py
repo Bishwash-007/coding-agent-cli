@@ -1,4 +1,5 @@
 import os
+from functions.track_changes import log_file_change
 from google.genai import types
 
 def write_file(working_directory, file_path, content):
@@ -21,6 +22,7 @@ def write_file(working_directory, file_path, content):
     try:
         with open(abs_file_path,"w") as f:
             f.write(content)
+            log_file_change(working_directory, file_path)
         return f"'{file_path}' Modified ... ({len(content)}) characters wrote to file"
         
     except Exception as e:

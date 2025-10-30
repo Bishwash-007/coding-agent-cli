@@ -1,0 +1,12 @@
+{
+  "name": "express-project",
+  "version": "1.0.0",
+  "description": "A simple Express.js project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
