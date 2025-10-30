@@ -61,30 +61,40 @@ def main():
             parts=[types.Part(text=system_prompt)]
         ),
     )
-
-    response = client.models.generate_content(
-        model = "gemini-2.5-flash",
-        contents = messages,
-        config = config
-    )
     
-    if verbose_flag:
-        print(f"User Prompt: {prompt}")
-        print(f"Prompt Token Count : {response.usage_metadata.prompt_token_count}")
+    max_iters = 20
     
-    if response is None or response.usage_metadata is None:
-        print("Invalid Response")
-        return
-    
-    if response.function_calls:
-        print(response.function_calls)
-        for function_call_part in response.function_calls:
-            result = call_function(function_call_part, verbose_flag)
-            print(result)
+    for i in range(0, max_iters):
         
+        response = client.models.generate_content(
+            model = "gemini-2.5-flash",
+            contents = messages,
+            config = config
+        )
+        
+        if verbose_flag:
+            print(f"User Prompt: {prompt}")
+            print(f"Prompt Token Count : {response.usage_metadata.prompt_token_count}")
+        
+        if response is None or response.usage_metadata is None:
+            print("Invalid Response")
+            return
+        
+        if response.candidates:
+            for candidate in response.candidates:
+                if candidate is None or candidate.content is None:
+                    continue
+                messages.append(candidate.content)
+                
+        if response.function_calls:
+            for function_call_part in response.function_calls:
+                result = call_function(function_call_part, verbose_flag)
+                messages.append(result)
             
-    else:
-        print(response.text)
+        else:
+            #final agent text message
+            print(response.text)
+            return
 
     
 
